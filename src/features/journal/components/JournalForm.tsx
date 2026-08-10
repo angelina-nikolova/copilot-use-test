@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { journalEntrySchema, type JournalEntryFormData } from '../journal.schema';
 import { MOOD_LABELS, MOOD_VALUES, type MoodType } from '../../../types/journal.types';
 import { Button } from '../../../components/ui/Button';
+import { DateSelector } from '../../../components/ui/DateSelector';
 import { format } from 'date-fns';
 
 interface JournalFormProps {
@@ -21,6 +22,8 @@ export function JournalForm({
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<JournalEntryFormData>({
     resolver: zodResolver(journalEntrySchema),
@@ -31,17 +34,15 @@ export function JournalForm({
     },
   });
 
+  const selectedDate = watch('date');
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-      <div className="space-y-2">
-        <label htmlFor="date" className="block font-semibold text-gray-900 dark:text-white text-sm">
-          📅 Date
-        </label>
-        <input
-          id="date"
-          type="date"
-          {...register('date')}
-          className="bg-white dark:bg-gray-900 shadow-sm px-4 py-3 border-2 border-gray-300 hover:border-gray-400 focus:border-primary-500 dark:border-gray-600 dark:hover:border-gray-500 dark:focus:border-primary-500 rounded-xl focus:outline-none focus:ring-4 focus:ring-primary-100 dark:focus:ring-primary-900/30 w-full dark:text-white transition-all duration-200"
+      <div>
+        <DateSelector
+          value={selectedDate}
+          onChange={(date) => setValue('date', date)}
+          label="📅 Date"
         />
         {errors.date && (
           <p className="slide-in-left flex items-center gap-1 mt-2 text-red-600 dark:text-red-400 text-sm">❌ {errors.date.message}</p>

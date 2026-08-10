@@ -1,188 +1,397 @@
 # Daily Journal
 
-A privacy-first daily journaling web application built with React, TypeScript, and Tailwind CSS.
+A calm, privacy-focused daily journaling web application with integrated mood tracking. Built with React, TypeScript, and designed with clean architecture principles.
 
-## ✨ Features
+## Overview
 
-- ✍️ **One Entry Per Day**: Create or update a single journal entry for each calendar day
-- 😊 **Mood Tracking**: Track your emotional state with intuitive mood indicators (5 mood levels)
-- 📱 **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
-- 🎨 **Dark Mode Support**: Comfortable reading in any lighting condition with automatic theme switching
-- 💾 **Local Storage**: All data stored locally with a clean service layer for future backend integration
-- 🔒 **Privacy First**: Your journal entries never leave your device
-- ✨ **Beautiful UI**: Modern gradient backgrounds, smooth animations, and polished interactions
-- ♿ **Accessible**: Keyboard navigation, screen reader support, and WCAG AA compliant
+Daily Journal provides a focused, distraction-free space for personal reflection and daily writing. The application combines a Notion-inspired editorial experience with structured mood tracking, helping users maintain a consistent journaling practice and gain insights into their emotional patterns over time.
 
-## 🎨 Design & Styling
+**Key Characteristics:**
+- Privacy-first design with local data storage
+- One entry per day model
+- Clean, accessible, keyboard-friendly interface
+- Mood tracking with 5-point scale
+- Designed for future Supabase integration
 
-The app features a **premium, polished design** with Tailwind CSS:
+## Features
 
-### Visual Design
-- **Gradient Backgrounds**: Subtle gradient overlays for depth and visual interest
-- **Glass Morphism**: Backdrop blur effects on navigation for a modern look
-- **Card Hover Effects**: Smooth elevation changes with shadow and transform effects
-- **Rounded Corners**: Generous border radius (xl/2xl) for a softer, friendlier feel
-- **Color System**: Primary blue palette with semantic colors for different states
+### ✅ Currently Implemented
 
-### Animations & Transitions
-- **Fade In**: Smooth page load animations
-- **Slide In**: Side-entry animations for alerts and messages
-- **Scale Effects**: Subtle scale transformations on hover and active states
-- **Loading States**: Professional spinner with animated dots
-- **Micro-interactions**: Button press effects, icon transforms, and smooth color transitions
-
-### Component Styling
-- **Buttons**: Gradient backgrounds, shadow elevation, active scale effects
-- **Forms**: Enhanced inputs with focus rings, hover states, and validation feedback
-- **Mood Selector**: Interactive cards with scale effects and visual feedback
-- **Navigation**: Sticky header with backdrop blur and active state indicators
-- **Cards**: Elevated cards with gradient overlays and smooth hover transitions
-- **Empty States**: Friendly illustrations with bordered dashed containers
-
-### Accessibility Features
-- Custom focus-visible rings (primary color with offset)
-- High contrast text and borders
-- Semantic HTML structure
-- ARIA labels and roles
-- Loading indicators with status text
-- Keyboard navigation support
+- **Daily Journal Entries**: Create, edit, and delete journal entries with a date-based system (one entry per day)
+- **Mood Tracking**: Track daily mood with 5 predefined values (very happy, happy, neutral, sad, very sad)
+- **Entry Management**: View all entries sorted by date, filter by month, and manage your journal history
+- **Rich Text Editor**: Clean writing interface with character count and validation
+- **Delete Confirmation**: Explicit confirmation dialogs prevent accidental data loss
+- **Responsive Design**: Mobile-first UI that works seamlessly across devices
+- **Dark Mode Support**: System preference detection with manual toggle capability
+- **Local Data Persistence**: All entries stored locally with a service layer ready for backend integration
+- **Loading & Error States**: Clear feedback for all asynchronous operations
+- **Empty States**: Helpful prompts when no entries exist
 
 ## Tech Stack
 
-- **Build Tool**: Vite
-- **Framework**: React 18
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Routing**: React Router v7
-- **Forms**: React Hook Form + Zod validation
-- **Icons**: Lucide React
-- **Dates**: date-fns
+### Core Framework
+- **React 18.3** - UI library with hooks and function components
+- **TypeScript 5.6** - Type-safe application code
+- **Vite 6.0** - Fast build tool and development server
+
+### Routing & Navigation
+- **React Router 7.1** - Client-side routing with nested routes
+
+### Forms & Validation
+- **React Hook Form 7.54** - Performant form state management
+- **Zod 3.24** - Runtime type validation and schema definition
+- **@hookform/resolvers 3.9** - Zod integration for React Hook Form
+
+### UI & Styling
+- **Tailwind CSS 3.4** - Utility-first CSS framework
+- **Lucide React 0.468** - Icon library with consistent design
+- **PostCSS 8.4** - CSS processing and autoprefixing
+
+### Date Management
+- **date-fns 4.1** - Modern date utility library for formatting and calculations
+
+### Testing
+- **Vitest 2.1** - Fast unit test runner compatible with Vite
+- **@vitejs/plugin-react 4.3** - React support for Vitest
+
+### Code Quality
+- **ESLint 9.17** - Linting with TypeScript and React rules
+- **TypeScript ESLint 8.18** - TypeScript-specific linting rules
+- **Prettier** (via ESLint config) - Code formatting
 
 ## Project Structure
 
+The project follows clean architecture principles with feature-based organization:
+
 ```
-src/
-├── app/                    # Application setup
-│   ├── Layout.tsx         # Main layout with navigation
-│   └── router/            # Route configuration
-├── components/            # Reusable UI components
-│   └── ui/
-│       └── Button.tsx
-├── features/              # Feature modules
-│   └── journal/
-│       ├── components/    # Journal-specific components
-│       ├── hooks/         # Journal custom hooks
-│       ├── journal.schema.ts    # Zod validation schemas
-│       ├── journal.service.ts   # Data persistence layer
-│       └── journal.types.ts     # (moved to types/)
-├── pages/                 # Route-level page components
-│   ├── HomePage.tsx
-│   ├── JournalsPage.tsx
-│   └── JournalEntryPage.tsx
-├── types/                 # Shared TypeScript types
-│   └── journal.types.ts
-└── main.tsx              # Application entry point
+copilot-use-test/
+├── .github/                      # GitHub-specific configuration
+│   ├── agents/                   # Custom Copilot agent definitions
+│   │   └── documentation-readme.agent.md
+│   ├── prompts/                  # Prompt templates
+│   ├── copilot-instructions.md   # Main Copilot guidelines
+│   ├── general.instructions.md   # General coding standards
+│   ├── typescript-react.instructions.md
+│   ├── css-tailwind.instructions.md
+│   └── design.instructions.md
+├── public/                       # Static assets
+│   └── logo.avif
+├── src/
+│   ├── app/                      # Application composition
+│   │   ├── Layout.tsx            # Root layout component
+│   │   ├── router/               # Route configuration
+│   │   │   └── index.tsx
+│   │   └── index.ts
+│   ├── components/               # Reusable UI components
+│   │   └── ui/                   # Design system primitives
+│   │       ├── Button.tsx
+│   │       ├── DateSelector.tsx
+│   │       ├── EmptyState.tsx
+│   │       ├── ErrorMessage.tsx
+│   │       ├── LoadingSpinner.tsx
+│   │       ├── Modal.tsx
+│   │       └── Navigation.tsx
+│   ├── features/                 # Feature-specific code
+│   │   └── journal/              # Journal domain logic
+│   │       ├── components/       # Journal-specific components
+│   │       ├── hooks/            # Journal-related hooks
+│   │       ├── journal.schema.ts # Zod validation schemas
+│   │       └── journal.service.ts # Data access layer
+│   ├── pages/                    # Route-level components
+│   │   ├── HomePage.tsx          # Landing page with entry list
+│   │   ├── JournalsPage.tsx      # All journals view
+│   │   └── JournalEntryPage.tsx  # Single entry editor
+│   ├── types/                    # Shared TypeScript types
+│   │   └── journal.types.ts
+│   ├── assets/                   # Images, fonts, etc.
+│   ├── index.css                 # Global styles and Tailwind imports
+│   └── main.tsx                  # Application entry point
+├── AGENTS.md                     # Agent instructions and guidelines
+├── STYLING.md                    # Design system documentation
+├── index.html                    # HTML template
+├── package.json                  # Dependencies and scripts
+├── vite.config.ts                # Vite configuration
+├── tsconfig.json                 # TypeScript configuration
+├── tsconfig.app.json             # App-specific TypeScript config
+├── tailwind.config.js            # Tailwind CSS configuration
+├── postcss.config.js             # PostCSS configuration
+└── eslint.config.js              # ESLint configuration
 ```
 
-## Architecture
+### Architecture Layers
 
-The application follows clean architecture principles:
+**Pages** → **Features** → **Hooks** → **Services**
 
-- **Pages**: Route-level composition, no business logic
-- **Components**: UI rendering, delegating behavior to hooks
-- **Hooks**: State management and service coordination
-- **Services**: Data persistence abstraction (currently localStorage, designed for easy Supabase migration)
-- **Schemas**: Input validation at boundaries using Zod
+- **Pages**: Route-level composition, no business logic or direct data access
+- **Features**: Domain-specific components, hooks, services, schemas, and types
+- **Hooks**: Coordinate React state, loading/error states, and call services
+- **Services**: Own data access logic (currently localStorage, designed for Supabase)
+- **Components/UI**: Reusable, domain-agnostic design system primitives
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- **Node.js**: Version 18.x or higher
+- **npm**: Version 9.x or higher (comes with Node.js)
 
 ### Installation
 
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd copilot-use-test
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   
+   Navigate to `http://localhost:5173` (or the port shown in your terminal)
+
+### Available Scripts
+
 ```bash
-# Install dependencies
-npm install
+# Development
+npm run dev          # Start Vite dev server with hot reload
 
-# Start development server (runs on http://localhost:5173 by default)
-npm run dev
+# Building
+npm run build        # Type-check with tsc and build for production
+npm run preview      # Preview production build locally
 
-# Build for production
-npm run build
+# Code Quality
+npm run lint         # Run ESLint on all files
 
-# Preview production build
-npm run preview
-
-# Run linter
-npm run lint
+# Testing
+npm run test         # Run Vitest in watch mode
+npm run test:ui      # Run Vitest with UI interface
 ```
 
-### Development
+## Usage
 
-The app will be available at `http://localhost:5173` (or the next available port)
-Dashboard with stats cards, quick actions, and recent entries preview
-- **My Journals** (`/journals`): Complete list of all entries with delete confirmation
-- **New/Edit Entry** (`/journal/new` or `/journal/:id`): Form to create or edit entries with date picker, mood selector, and text area
+### Creating Your First Entry
 
-## 🎨 UI Components
+1. Visit the home page
+2. Click "New Entry" or press the keyboard shortcut
+3. Select today's date (or any past date)
+4. Choose your current mood from the 5-point scale
+5. Write your journal entry (up to 10,000 characters)
+6. Click "Save Entry"
 
-### Reusable Components
-- **Button**: Multiple variants (primary, secondary, danger) and sizes (sm, md, lg)
-- **LoadingSpinner**: Configurable spinner with optional text
-- **EmptyState**: Consistent empty state pattern with icon, title, description, and action
-- **ErrorMessage**: Styled error display with icon and border
+### Editing an Existing Entry
 
-### Feature Components
-- **JournalCard**: Rich card with gradient overlay, mood badge, and hover effects
-- **JournalForm**: Comprehensive form with validation, emoji mood selector, and enhanced input
-- **Home** (`/`): Summary dashboard with quick stats and recent entries
-- **My Journals** (`/journals`): List view of all journal entries with delete functionality
-- **New/Edit Entry** (`/journal/new` or `/journal/:id`): Form to create or edit journal entries
+1. Click on any entry card from the home page or journals list
+2. Update the mood or content
+3. Click "Save Entry" to persist changes
+
+### Deleting an Entry
+
+1. Click the "Delete" button on an entry card
+2. Confirm the deletion in the modal dialog
+3. The entry will be permanently removed
+
+### Navigation
+
+- **Home (`/`)**: View current month's entries with quick stats
+- **Journals (`/journals`)**: Browse all journal entries
+- **Entry Editor (`/journal/:id`)**: View or edit a specific entry
 
 ## Data Model
 
-Each journal entry contains:
+### JournalEntry
 
 ```typescript
-{
-  id: string;           // Unique identifier
-  date: string;         // ISO date (YYYY-MM-DD)
-  mood: MoodType;       // One of: very_happy, happy, neutral, sad, very_sad
-  content: string;      // Journal text (1-10000 characters)
-  createdAt: string;    // ISO timestamp
-  updatedAt: string;    // ISO timestamp
+interface JournalEntry {
+  id: string;              // UUID
+  date: string;            // YYYY-MM-DD format
+  mood: MoodType;          // 'very_happy' | 'happy' | 'neutral' | 'sad' | 'very_sad'
+  content: string;         // Journal text (1-10,000 characters)
+  createdAt: string;       // ISO 8601 timestamp
+  updatedAt: string;       // ISO 8601 timestamp
 }
 ```
 
-## Service Layer
+### Validation Rules
 
-The `journal.service.ts` provides a clean interface for data operations:
+- **Date**: Must be in YYYY-MM-DD format, only one entry per date
+- **Mood**: Required, must be one of the 5 predefined values
+- **Content**: Required, 1-10,000 characters after trimming
 
-```typescript
-- getAll(): Get all entries sorted by date
-- getById(id): Get a specific entry
-- getByDate(date): Get entry for a specific date
-- save(input): Create or update an entry (upsert by date)
-- delete(id): Remove an entry
-- getForCurrentMonth(): Get current month's entries
-- getCount(): Get total entry count
+## Environment Configuration
+
+Currently, the application runs entirely client-side with localStorage. No environment variables are required.
+
+### Future Supabase Integration
+
+When Supabase is integrated, the following environment variables will be needed:
+
+```bash
+# .env.example (for future use)
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-This abstraction allows easy swapping to a backend service (like Supabase) without changing component code.
+**Note**: Never commit actual credentials. The `.env` file is gitignored.
 
-## Future Enhancements
+## Testing
 
-- [ ] Supabase backend integration
-- [ ] User authentication
-- [ ] Rich text editor
-- [ ] Export/import functionality
-- [ ] Search and filtering
-- [ ] Mood analytics and trends
-- [ ] Tags and categories
-- [ ] Image attachments
+The project uses Vitest for unit and integration testing.
+
+### Running Tests
+
+```bash
+# Run tests in watch mode
+npm run test
+
+# Run tests with UI
+npm run test:ui
+
+# Run tests once (CI mode)
+npm run test -- --run
+```
+
+### Test Coverage Focus
+
+- Pure domain logic (validation, date utilities)
+- Component states (loading, error, empty, success)
+- Form validation and submission
+- User interactions (keyboard, clicks, confirmations)
+- CRUD operations through the service layer
+
+## Accessibility
+
+The application follows WCAG 2.1 AA standards:
+
+- ✅ Semantic HTML with proper heading hierarchy
+- ✅ Keyboard-accessible navigation and controls
+- ✅ Visible focus indicators
+- ✅ Sufficient color contrast (checked in both light and dark modes)
+- ✅ Proper ARIA labels where needed
+- ✅ Form validation with clear error messages
+- ✅ Screen reader friendly announcements
+
+## Browser Support
+
+- Chrome/Edge: Last 2 versions
+- Firefox: Last 2 versions
+- Safari: Last 2 versions
+- Mobile browsers: iOS Safari 14+, Chrome for Android
+
+## Design Philosophy
+
+Daily Journal embraces a **calm, editorial interface** inspired by Notion:
+
+- Strong typography with generous whitespace
+- Subtle surfaces with small-radius borders
+- Restrained color hierarchy
+- Fast, keyboard-friendly editing
+- No emoji as UI elements
+- No purple gradients or decorative effects
+- Respect for `prefers-reduced-motion`
+
+See [STYLING.md](./STYLING.md) for detailed design system documentation.
+
+## Development Guidelines
+
+### Code Style
+
+- Use function components and hooks (no class components)
+- Keep TypeScript strict (no `any` types)
+- Small, focused components with single responsibilities
+- Explicit prop types and proper TypeScript modeling
+- Pure rendering with I/O in effects or handlers
+
+### Commit Conventions
+
+Follow Conventional Commits format:
+
+```
+feat: add mood tracking calendar
+fix: validate journal entry length
+refactor: simplify auth session hook
+docs: update local setup guide
+test: cover journal deletion confirmation
+```
+
+### Before Committing
+
+1. Run the linter: `npm run lint`
+2. Run tests: `npm run test -- --run`
+3. Type-check: `npm run build` (or `tsc -b`)
+4. Ensure no console errors in the browser
+
+## Roadmap
+
+### Planned Features
+
+- [ ] **Supabase Integration**: Replace localStorage with Supabase backend
+- [ ] **Authentication**: Email/password authentication with Supabase Auth
+- [ ] **Row Level Security**: User-scoped data with proper RLS policies
+- [ ] **Mood Visualization**: Charts and trends for mood data
+- [ ] **Calendar View**: Month/year calendar with entry indicators
+- [ ] **Entry Attachments**: Image upload with Supabase Storage
+- [ ] **Search & Filtering**: Full-text search and advanced filters
+- [ ] **Autosave**: Draft preservation with debounced saves
+- [ ] **AI Features**: Reflection prompts and summaries (with user consent)
+- [ ] **Export**: PDF, Markdown, or JSON export options
+- [ ] **Tags & Categories**: Organize entries with custom labels
+- [ ] **End-to-End Testing**: Playwright test suite for critical flows
+
+## Deployment
+
+### Vercel (Recommended)
+
+1. Push your code to a GitHub repository
+2. Import the project in Vercel
+3. Vercel will auto-detect Vite and use the correct build settings
+4. Deploy!
+
+**Build Settings:**
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Install Command: `npm install`
+
+### Manual Deployment
+
+```bash
+# Build for production
+npm run build
+
+# The dist/ folder contains the static files
+# Deploy dist/ to any static hosting service
+```
+
+## Contributing
+
+This is a demonstration project built with GitHub Copilot. Contributions are welcome for:
+
+- Bug fixes
+- Performance improvements
+- Accessibility enhancements
+- Test coverage
+- Documentation improvements
+
+Please ensure all tests pass and code is linted before submitting pull requests.
 
 ## License
 
-MIT
+[Specify your license here - e.g., MIT, Apache 2.0, or proprietary]
+
+## Acknowledgments
+
+- Built with guidance from GitHub Copilot
+- Designed following clean architecture principles
+- Inspired by Notion's calm, focused editorial interface
+
+---
+
+**Questions or Issues?** Please open an issue in the repository.

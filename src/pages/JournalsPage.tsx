@@ -29,9 +29,9 @@ export function JournalsPage() {
 
   if (loading) {
     return (
-      <div className="flex flex-col justify-center items-center gap-4 min-h-[60vh]">
-        <div className="border-4 border-primary-200 dark:border-primary-800 border-t-primary-600 dark:border-t-primary-400 rounded-full w-16 h-16 animate-spin" />
-        <div className="font-medium text-gray-500 dark:text-gray-400 loading-dots">Loading</div>
+      <div className="flex flex-col justify-center items-center gap-4 min-h-[60vh]" role="status" aria-live="polite" aria-label="Loading journal entries">
+        <div className="border-4 border-primary-200 dark:border-primary-800 border-t-primary-600 dark:border-t-primary-400 rounded-full w-16 h-16 animate-spin" aria-hidden="true" />
+        <div className="font-medium text-gray-500 dark:text-gray-400">Loading journal entries...</div>
       </div>
     );
   }
@@ -48,8 +48,8 @@ export function JournalsPage() {
       </div>
 
       {error && (
-        <div className="slide-in-left bg-red-50 dark:bg-red-900/20 mb-6 p-4 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400">
-          ⚠️ {error}
+        <div role="alert" aria-live="assertive" aria-atomic="true" className="slide-in-left bg-red-50 dark:bg-red-900/20 mb-6 p-4 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400">
+          <strong>Error:</strong> {error}
         </div>
       )}
 

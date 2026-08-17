@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Button } from './Button';
 
 interface ModalProps {
@@ -21,6 +21,9 @@ export function Modal({
   confirmText = 'Confirm',
   cancelText = 'Cancel',
 }: ModalProps) {
+  const modalRef = useRef<HTMLDivElement>(null);
+  const previousActiveElement = useRef<HTMLElement | null>(null);
+
   // Handle escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -33,12 +36,17 @@ export function Modal({
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
-  // Prevent body scroll when modal is open
+  // Prevent body scroll when modal is open and manage focus
   useEffect(() => {
     if (isOpen) {
+      previousActiveElement.current = document.activeElement as HTMLElement;
       document.body.style.overflow = 'hidden';
+      // Move focus to the modal
+      modalRef.current?.focus();
     } else {
       document.body.style.overflow = 'unset';
+      // Restore focus to the element that opened the modal
+      previousActiveElement.current?.focus();
     }
 
     return () => {
@@ -59,8 +67,9 @@ export function Modal({
 
       {/* Modal */}
       <div
+        ref={modalRef}
         className="z-10 relative bg-white dark:bg-gray-800 shadow-2xl mx-4 p-6 border border-gray-200 dark:border-gray-700 rounded-2xl w-full max-w-md scale-in"
-        role="dialog"
+        role="alertdialog"
         aria-modal="true"
         aria-labelledby="modal-title"
       >

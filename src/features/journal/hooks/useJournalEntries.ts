@@ -23,7 +23,10 @@ export function useJournalEntries(): UseJournalEntriesResult {
       const data = await journalService.getAll();
       setEntries(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load journal entries');
+      const message = err instanceof Error ? err.message : 'Failed to load journal entries';
+      console.error('Error refreshing journal entries:', err);
+      setError(message);
+      // Keep existing entries on error instead of clearing them
     } finally {
       setLoading(false);
     }

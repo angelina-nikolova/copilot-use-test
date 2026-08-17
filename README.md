@@ -20,7 +20,8 @@ Daily Journal provides a focused, distraction-free space for personal reflection
 - **Daily Journal Entries**: Create, edit, and delete journal entries with a date-based system (one entry per day)
 - **Mood Tracking**: Track daily mood with 5 predefined values (very happy, happy, neutral, sad, very sad)
 - **Entry Management**: View all entries sorted by date, filter by month, and manage your journal history
-- **Rich Text Editor**: Clean writing interface with character count and validation
+- **Rich Text Editor**: Clean writing interface with real-time character counter (up to 10,000 characters)
+- **Character Counter**: Visual feedback with color-coded indicators (gray → amber → red) as you approach the character limit
 - **Delete Confirmation**: Explicit confirmation dialogs prevent accidental data loss
 - **Responsive Design**: Mobile-first UI that works seamlessly across devices
 - **Dark Mode Support**: System preference detection with manual toggle capability
@@ -184,8 +185,11 @@ npm run test:ui      # Run Vitest with UI interface
 2. Click "New Entry" or press the keyboard shortcut
 3. Select today's date (or any past date)
 4. Choose your current mood from the 5-point scale
-5. Write your journal entry (up to 10,000 characters)
-6. Click "Save Entry"
+5. Write your journal entry - the character counter will update in real-time
+   - Gray text: under 9,000 characters
+   - Amber text: 9,000-10,000 characters (approaching limit)
+   - Red text: over 10,000 characters (exceeds limit)
+6. Click "Save Entry" to save your entry
 
 ### Editing an Existing Entry
 

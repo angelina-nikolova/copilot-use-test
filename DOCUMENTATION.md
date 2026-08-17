@@ -200,6 +200,24 @@ export function JournalCard({ entry, onDelete }: JournalCardProps) {
 }
 ```
 
+**Example: JournalForm Component**
+
+```typescript
+interface JournalFormProps {
+  defaultValues?: Partial<JournalEntryFormData>;
+  onSubmit: (data: JournalEntryFormData) => Promise<void>;
+  onCancel?: () => void;
+  submitLabel?: string;
+}
+
+export function JournalForm({ defaultValues, onSubmit, onCancel, submitLabel }: JournalFormProps) {
+  // Integrates React Hook Form + Zod validation
+  // Includes mood selector, date picker, textarea
+  // Features real-time character counter with color feedback
+  // Handles form state, validation errors, and submission
+}
+```
+
 #### 3. Page Components (`pages/`)
 
 **Purpose**: Route-level composition and coordination
@@ -444,6 +462,45 @@ const onSubmit = async (data: JournalEntryFormData) => {
   await saveEntry(data);
 };
 ```
+
+### Form Features
+
+#### Real-Time Character Counter
+
+The journal entry form includes a real-time character counter with visual feedback:
+
+```typescript
+// In JournalForm component
+const content = watch('content');
+const characterCount = content?.length ?? 0;
+const maxCharacters = 10000;
+
+// Render counter with color-coded feedback
+<div className={`text-sm transition-colors ${
+  characterCount > maxCharacters 
+    ? 'text-red-600 dark:text-red-400 font-semibold' 
+    : characterCount > maxCharacters * 0.9
+    ? 'text-amber-600 dark:text-amber-400'
+    : 'text-gray-500 dark:text-gray-400'
+}`}>
+  {characterCount.toLocaleString()} / {maxCharacters.toLocaleString()} characters
+</div>
+```
+
+**Character Counter States:**
+
+| Character Count | Color | Indication |
+|----------------|-------|------------|
+| 0 - 9,000 | Gray | Normal - plenty of space remaining |
+| 9,001 - 10,000 | Amber | Warning - approaching character limit |
+| 10,001+ | Red (bold) | Error - exceeds maximum allowed characters |
+
+**Implementation Benefits:**
+- Provides immediate user feedback while typing
+- Uses React Hook Form's `watch()` for efficient updates
+- Color-coded visual cues match accessibility standards
+- Formatted numbers with commas for readability
+- Prevents user frustration from exceeding limits without warning
 
 ---
 
@@ -1089,9 +1146,15 @@ npm audit                      # Security audit
 
 1. Update schema in `journal.schema.ts`
 2. Update type/interface
-3. Add field to form component
-4. Update service layer
-5. (Future) Add database column
+3. Add field to form component with appropriate validation
+4. Add visual feedback (e.g., character counter for text fields)
+5. Update service layer
+6. (Future) Add database column
+
+**Example:** The character counter feature was added by:
+- Using React Hook Form's `watch()` to track content length
+- Adding color-coded visual feedback based on character count
+- Matching the validation limit (10,000 characters) from the Zod schema
 
 #### Creating a new page
 
@@ -1102,8 +1165,13 @@ npm audit                      # Security audit
 
 ---
 
-**Document Version:** 1.0.0  
+**Document Version:** 1.1.0  
 **Last Updated:** August 10, 2026  
+**Recent Changes:**
+- Added character counter feature documentation
+- Updated form integration examples
+- Enhanced common patterns with character counter example
+
 **Maintained by:** Project Team
 
 For questions or clarifications, please open an issue or discussion in the repository.

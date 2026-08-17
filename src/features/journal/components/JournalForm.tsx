@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { journalEntrySchema, type JournalEntryFormData } from '../journal.schema';
-import { MOOD_LABELS, MOOD_VALUES, type MoodType } from '../../../types/journal.types';
+import { MOOD_LABELS, MOOD_VALUES } from '../../../types/journal.types';
 import { Button } from '../../../components/ui/Button';
 import { DateSelector } from '../../../components/ui/DateSelector';
 import { format } from 'date-fns';
@@ -35,6 +35,9 @@ export function JournalForm({
   });
 
   const selectedDate = watch('date');
+  const content = watch('content');
+  const characterCount = content?.length ?? 0;
+  const maxCharacters = 10000;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -42,16 +45,19 @@ export function JournalForm({
         <DateSelector
           value={selectedDate}
           onChange={(date) => setValue('date', date)}
-          label="📅 Date"
+          label="Date"
         />
         {errors.date && (
-          <p className="slide-in-left flex items-center gap-1 mt-2 text-red-600 dark:text-red-400 text-sm">❌ {errors.date.message}</p>
+          <p id="date-error" className="flex items-center gap-1 mt-2 text-red-600 dark:text-red-400 text-sm">
+            <span aria-hidden="true">❌</span>
+            <strong>Error:</strong> {errors.date.message}
+          </p>
         )}
       </div>
 
       <div className="space-y-3">
         <label className="block font-semibold text-gray-900 dark:text-white text-base">
-          😊 How are you feeling?
+          How are you feeling?
         </label>
         <div className="gap-3 grid grid-cols-5">
           {MOOD_VALUES.map((mood) => (
@@ -65,32 +71,55 @@ export function JournalForm({
                 {...register('mood')}
                 className="sr-only"
               />
-              <span className="text-4xl group-hover:scale-110 transition-transform duration-200">{MOOD_LABELS[mood].split(' ')[0]}</span>
+              <span className="text-4xl group-hover:scale-110 transition-transform duration-200" aria-hidden="true">{MOOD_LABELS[mood].split(' ')[0]}</span>
               <span className="font-medium text-gray-600 dark:group-has-[:checked]:text-primary-300 dark:text-gray-400 group-has-[:checked]:text-primary-700 text-xs text-center transition-colors">
                 {MOOD_LABELS[mood].split(' ').slice(1).join(' ')}
               </span>
-              <div className="top-2 right-2 absolute bg-primary-600 opacity-0 group-has-[:checked]:opacity-100 rounded-full w-3 h-3 transition-opacity" />
+              <div className="top-2 right-2 absolute flex justify-center items-center bg-primary-600 opacity-0 group-has-[:checked]:opacity-100 rounded-full w-5 h-5 transition-opacity" aria-hidden="true">
+                <span className="font-bold text-white text-sm">✓</span>
+              </div>
             </label>
           ))}
         </div>
         {errors.mood && (
-          <p className="slide-in-left flex items-center gap-1 mt-2 text-red-600 dark:text-red-400 text-sm">❌ {errors.mood.message}</p>
+          <p id="mood-error" className="flex items-center gap-1 mt-2 text-red-600 dark:text-red-400 text-sm">
+            <span aria-hidden="true">❌</span>
+            <strong>Error:</strong> {errors.mood.message}
+          </p>
         )}
       </div>
 
       <div className="space-y-2">
         <label htmlFor="content" className="block font-semibold text-gray-900 dark:text-white text-base">
-          ✍️ Journal Entry
+          Journal Entry
         </label>
         <textarea
           id="content"
           {...register('content')}
+          aria-describedby={errors.content ? 'content-error' : 'content-help'}
+          aria-invalid={!!errors.content}
           rows={12}
           placeholder="Write your thoughts here... What happened today? How did it make you feel?"
           className="bg-white dark:bg-gray-900 shadow-sm px-4 py-3 border-2 border-gray-300 hover:border-gray-400 focus:border-primary-500 dark:border-gray-600 dark:hover:border-gray-500 dark:focus:border-primary-500 rounded-xl focus:outline-none focus:ring-4 focus:ring-primary-100 dark:focus:ring-primary-900/30 w-full dark:text-white leading-relaxed transition-all duration-200 resize-none custom-scrollbar"
         />
+        <div className="flex justify-between items-center mt-2">
+          <p id="content-help" className={`text-sm transition-colors ${
+            characterCount > maxCharacters 
+              ? 'text-red-600 dark:text-red-400 font-semibold' 
+              : characterCount > maxCharacters * 0.9
+              ? 'text-amber-600 dark:text-amber-400'
+              : 'text-gray-500 dark:text-gray-400'
+          }`}>
+            {characterCount.toLocaleString()} / {maxCharacters.toLocaleString()} characters
+            {characterCount > maxCharacters && ' — Limit exceeded'}
+            {characterCount > maxCharacters * 0.9 && characterCount <= maxCharacters && ' — Nearing limit'}
+          </p>
+        </div>
         {errors.content && (
-          <p className="slide-in-left flex items-center gap-1 mt-2 text-red-600 dark:text-red-400 text-sm">❌ {errors.content.message}</p>
+          <p id="content-error" className="flex items-center gap-1 mt-2 text-red-600 dark:text-red-400 text-sm">
+            <span aria-hidden="true">❌</span>
+            <strong>Error:</strong> {errors.content.message}
+          </p>
         )}
       </div>
 
@@ -98,6 +127,8 @@ export function JournalForm({
         <Button
           type="submit"
           disabled={isSubmitting}
+          aria-busy={isSubmitting}
+          aria-label={isSubmitting ? 'Saving entry...' : submitLabel}
           variant="primary"
           className="flex-1"
         >

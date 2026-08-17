@@ -43,8 +43,9 @@ export function JournalCard({ entry, onDelete }: JournalCardProps) {
       </div>
       
       <div className="z-10 relative mb-4">
-        <span className="inline-flex items-center gap-2 bg-gradient-to-r from-primary-50 dark:from-primary-900/30 to-blue-50 dark:to-blue-900/20 px-3 py-1.5 border border-primary-200 dark:border-primary-800 rounded-full text-xl" role="img" aria-label="mood">
-          {MOOD_LABELS[entry.mood]}
+        <span className="inline-flex items-center gap-2 bg-gradient-to-r from-primary-50 dark:from-primary-900/30 to-blue-50 dark:to-blue-900/20 px-3 py-1.5 border border-primary-200 dark:border-primary-800 rounded-full text-xl">
+          <span aria-hidden="true">{MOOD_LABELS[entry.mood].split(' ')[0]}</span>
+          <span className="sr-only">Mood: {MOOD_LABELS[entry.mood]}</span>
         </span>
       </div>
 

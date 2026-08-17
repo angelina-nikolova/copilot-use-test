@@ -41,6 +41,7 @@ export function DateSelector({ value, onChange, label = 'Date' }: DateSelectorPr
               <button
                 key={offset}
                 type="button"
+                aria-pressed={isSelected}
                 onClick={() => handleQuickSelect(date)}
                 className={`
                   px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
@@ -60,9 +61,14 @@ export function DateSelector({ value, onChange, label = 'Date' }: DateSelectorPr
           
           <button
             type="button"
+            aria-label="Open custom date picker"
             onClick={() => {
               const input = document.getElementById('date-picker-input') as HTMLInputElement;
-              input?.showPicker?.();
+              if (input?.showPicker) {
+                input.showPicker();
+              } else {
+                input?.focus();
+              }
             }}
             className="bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 px-3 py-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 text-sm hover:scale-105 transition-all duration-200"
           >
@@ -74,6 +80,7 @@ export function DateSelector({ value, onChange, label = 'Date' }: DateSelectorPr
         <input
           id="date-picker-input"
           type="date"
+          aria-label="Select a custom date"
           value={value}
           onChange={(e) => onChange(e.target.value)}
           className="bg-white dark:bg-gray-900 shadow-sm px-4 py-3 border-2 border-gray-300 hover:border-gray-400 focus:border-primary-500 dark:border-gray-600 dark:hover:border-gray-500 dark:focus:border-primary-500 rounded-xl focus:outline-none focus:ring-4 focus:ring-primary-100 dark:focus:ring-primary-900/30 w-full dark:text-white transition-all duration-200"

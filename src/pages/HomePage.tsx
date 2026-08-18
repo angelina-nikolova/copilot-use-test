@@ -1,4 +1,4 @@
-import { Accessibility, BookOpen, Code2, FileText, PlusCircle } from 'lucide-react';
+import { BookOpen, PlusCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useJournalEntries } from '../features/journal/hooks/useJournalEntries';
@@ -131,76 +131,6 @@ export function HomePage() {
           </div>
         )}
       </div>
-
-      <section className="mt-12 pt-8 border-gray-200 dark:border-gray-700 border-t">
-        <div className="mb-6">
-          <p className="mb-2 font-semibold text-primary-600 dark:text-primary-400 text-xs uppercase tracking-[0.2em]">
-            Custom agent options
-          </p>
-          <h2 className="font-bold text-gray-900 dark:text-white text-3xl">
-            Tailored AI review workflows
-          </h2>
-        </div>
-
-        <div className="gap-6 grid md:grid-cols-3">
-          <article className="bg-white dark:bg-gray-800 shadow-sm p-6 border border-gray-200 dark:border-gray-700 rounded-2xl">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="bg-primary-50 dark:bg-primary-900/30 p-2.5 rounded-xl text-primary-600 dark:text-primary-400">
-                <FileText className="w-5 h-5" />
-              </div>
-              <h3 className="font-semibold text-gray-900 dark:text-white text-xl">Documentation writer</h3>
-            </div>
-
-            <p className="mb-4 text-gray-600 dark:text-gray-300 text-sm leading-6">
-              Agent can do any type of task, but it should be customized for it.
-            </p>
-
-            <ul className="space-y-3 text-gray-700 dark:text-gray-200 text-sm leading-6">
-              <li>• Create a custom agent in VS Code to update README and documentation automatically.</li>
-              <li>• Compare changes against previous commits to decide what should be documented and what should remain unchanged.</li>
-              <li>• Generate development and contribution guidance files that reflect the current project state.</li>
-            </ul>
-          </article>
-
-          <article className="bg-white dark:bg-gray-800 shadow-sm p-6 border border-gray-200 dark:border-gray-700 rounded-2xl">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="bg-blue-50 dark:bg-blue-900/30 p-2.5 rounded-xl text-blue-600 dark:text-blue-400">
-                <Code2 className="w-5 h-5" />
-              </div>
-              <h3 className="font-semibold text-gray-900 dark:text-white text-xl">Code reviewer</h3>
-            </div>
-
-            <p className="mb-4 text-gray-600 dark:text-gray-300 text-sm leading-6">
-              Review components, hooks, recent changes, and application performance while staying focused on code quality.
-            </p>
-
-            <ul className="space-y-3 text-gray-700 dark:text-gray-200 text-sm leading-6">
-              <li>• Inspect component structure, hook logic, and recent diffs.</li>
-              <li>• Highlight possible regressions and performance bottlenecks.</li>
-              <li>• Use the custom reviewer agent directly in VS Code with the file or selection selected.</li>
-            </ul>
-          </article>
-
-          <article className="bg-white dark:bg-gray-800 shadow-sm p-6 border border-gray-200 dark:border-gray-700 rounded-2xl">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="bg-emerald-50 dark:bg-emerald-900/30 p-2.5 rounded-xl text-emerald-600 dark:text-emerald-400">
-                <Accessibility className="w-5 h-5" />
-              </div>
-              <h3 className="font-semibold text-gray-900 dark:text-white text-xl">Accessibility reviewer</h3>
-            </div>
-
-            <p className="mb-4 text-gray-600 dark:text-gray-300 text-sm leading-6">
-              Help check if pages, components, forms, buttons, and menus comply with accessibility standards and usability expectations.
-            </p>
-
-            <ul className="space-y-3 text-gray-700 dark:text-gray-200 text-sm leading-6">
-              <li>• Audit keyboard support, focus states, labels, contrast, and error handling.</li>
-              <li>• Validate flow quality for forms, navigation, and interactive controls.</li>
-              <li>• Review production issues with specific guidance for meaningful accessibility fixes.</li>
-            </ul>
-          </article>
-        </div>
-      </section>
 
       <Modal
         isOpen={deleteId !== null}

@@ -1,9 +1,8 @@
 import { BookOpen, Search } from 'lucide-react';
+import { useState, useMemo } from 'react';
 import { useJournalEntries } from '../features/journal/hooks/useJournalEntries';
 import { JournalCard } from '../features/journal/components/JournalCard';
 import { MoodCalendar } from '../features/journal/components/MoodCalendar';
-import { useState } from 'react';
-import { useMemo, useState } from 'react';
 import { Modal } from '../components/ui/Modal';
 
 // For large journals, move filtering into the journal service and query Supabase with .ilike() plus pagination instead of loading every entry into the browser.
@@ -12,23 +11,24 @@ export function JournalsPage() {
   const { entries, loading, deleteEntry } = useJournalEntries();
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-
-  const filteredEntries = selectedDate
-    ? entries.filter((e) => e.date === selectedDate)
-    : entries;
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredEntries = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
+    let result = entries;
 
-    if (!query) {
-      return entries;
+    if (selectedDate) {
+      result = result.filter((e) => e.date === selectedDate);
     }
 
-    return entries.filter((entry) =>
-      entry.content.toLowerCase().includes(query),
-    );
-  }, [entries, searchQuery]);
+    const query = searchQuery.trim().toLowerCase();
+    if (query) {
+      result = result.filter((entry) =>
+        entry.content.toLowerCase().includes(query),
+      );
+    }
+
+    return result;
+  }, [entries, selectedDate, searchQuery]);
 
   const handleDeleteClick = (id: string) => {
     setDeleteId(id);

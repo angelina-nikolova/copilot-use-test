@@ -1,12 +1,18 @@
 import { BookOpen } from 'lucide-react';
 import { useJournalEntries } from '../features/journal/hooks/useJournalEntries';
 import { JournalCard } from '../features/journal/components/JournalCard';
+import { MoodCalendar } from '../features/journal/components/MoodCalendar';
 import { useState } from 'react';
 import { Modal } from '../components/ui/Modal';
 
 export function JournalsPage() {
   const { entries, loading, error, deleteEntry } = useJournalEntries();
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+
+  const filteredEntries = selectedDate
+    ? entries.filter((e) => e.date === selectedDate)
+    : entries;
 
   const handleDeleteClick = (id: string) => {
     setDeleteId(id);
